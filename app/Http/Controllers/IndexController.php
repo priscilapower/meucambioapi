@@ -54,7 +54,7 @@ class IndexController extends Controller
         $feed = $this->getFeed();
 
         foreach ($feed->get_items() as $item) {
-            if($item->get_id(true) == $id) {
+            if(md5($item->get_permaLink()) == $id) {
                 $data = $item->data['child'][''];
                 break;
             }
