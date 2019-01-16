@@ -13,5 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-/*Route::get('/news', 'IndexController@index');
-Route::get('/news/{id}', 'IndexController@view');*/
+Route::get('/load', 'IndexController@load');
+Route::get('/news', 'IndexController@index');
+Route::get('/news/{id}', 'IndexController@view');

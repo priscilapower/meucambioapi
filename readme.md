@@ -37,16 +37,16 @@ Acesse http://localhost:8000 para verificar se a aplicação está rodando.
 
 A API disponibiliza três rotas.
 
-- `/load`
+- `/api/load`
 
     Esta é a primeira rota a ser executada, pois irá carregar as notícias disponíveis no RSS em seu banco de dados. Não importa quantas vezes for executada, irá inserir apenas as notícias que ainda não estão na sua base.
 
-- `/news`
+- `/api/news`
     
     Retorna um objeto json com as notícias paginadas, contendo 10 por página e os itens de paginação, como o total e as rotas das próximas páginas.
     
 
-- `/news/:id`
+- `/api/news/:id`
 
     Retorna um objeto json com todos os dados da notícia referenciado pelo id passado.
 
@@ -56,15 +56,15 @@ A API disponibiliza três rotas.
 
 Carregando as notícias:
 
-`https://localhost:8000/load`
+`https://localhost:8000/api/api/load`
 
 Recuperando todos os registros:
 
-`https://localhost:8000/news`
+`https://localhost:8000/api/news`
 
 Recuperando um registro específico:
 
-`https://localhost:8000/news/1`
+`https://localhost:8000/api/news/1`
 
 
 #### Obrigada pela utilização :)

@@ -22,7 +22,7 @@ class IndexController extends Controller
         }
 
         $news = News::paginate(10);
-        $news->setPath('news');
+        $news->setPath('api/news');
 
         return $news;
     }

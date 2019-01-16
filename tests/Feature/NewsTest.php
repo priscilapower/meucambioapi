@@ -13,7 +13,7 @@ class NewsTest extends TestCase
      */
     public function testNewsIndex()
     {
-        $this->get('/news')
+        $this->get('/api/news')
             ->assertOk()
             ->assertJsonStructure(
                 [
@@ -38,7 +38,7 @@ class NewsTest extends TestCase
      */
     public function testNewsIndexPageRight()
     {
-        $this->get('/news?page=2')
+        $this->get('/api/news?page=2')
             ->assertOk()
             ->assertJsonStructure(
                 [
@@ -63,7 +63,7 @@ class NewsTest extends TestCase
      */
     public function testNewsIndexPageWrong()
     {
-        $this->get('/news?page=255')
+        $this->get('/api/news?page=255')
             ->assertOk()
             ->assertJsonStructure(
                 [
@@ -88,7 +88,7 @@ class NewsTest extends TestCase
      */
     public function testNewsIndexPageString()
     {
-        $this->get('/news?page=string')
+        $this->get('/api/news?page=string')
             ->assertStatus(500)
             ->assertSeeText('O número da página precisa ser um inteiro');
     }
@@ -98,7 +98,7 @@ class NewsTest extends TestCase
      */
     public function testNewsView()
     {
-        $this->get('/news/5')
+        $this->get('/api/news/5')
             ->assertOk()
             ->assertJsonStructure(
                 [
@@ -115,19 +115,19 @@ class NewsTest extends TestCase
      */
     public function testNewsViewInvalidId()
     {
-        $this->get('/news/c7ce76ce34f')
+        $this->get('/api/news/c7ce76ce34f')
             ->assertOk();
     }
 
     public function testLoad()
     {
-        $this->get('/load')
+        $this->get('/api/load')
             ->assertOk();
     }
 
     public function testLoadWrong()
     {
-        $this->get('/load/4')
+        $this->get('/api/load/4')
             ->assertNotFound();
     }
 }

@@ -15,6 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/load', 'IndexController@load');
-Route::get('/news', 'IndexController@index');
-Route::get('/news/{id}', 'IndexController@view');
+
