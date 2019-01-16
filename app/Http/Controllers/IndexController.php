@@ -2,24 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\News;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 
 class IndexController extends Controller
 {
-    /**
-     * @return mixed
-     */
-    private function getFeed()
-    {
-        return \Feeds::make('http://pox.globo.com/rss/g1/economia');
-    }
 
     /**
      * @param Request $request
-     * @return LengthAwarePaginator
+     * @return mixed
      */
     public function index(Request $request)
     {
@@ -28,38 +21,44 @@ class IndexController extends Controller
             throw new InvalidParameterException("O número da página precisa ser um inteiro");
         }
 
-        $feed = $this->getFeed();
-        $data = [];
+        $news = News::paginate(10);
+        $news->setPath('news');
 
-        foreach ($feed->get_items() as $item) {
-            $data[] = $item->data;
-        }
-
-        $perPage = 10;
-        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-        $itemCollection = collect($data);
-        $paginatedItems = new LengthAwarePaginator($itemCollection->forPage($page, $perPage), $itemCollection->count(), $perPage, $page);
-        $paginatedItems->setPath('news');
-
-        return $paginatedItems;
+        return $news;
     }
 
     /**
      * @param $id
-     * @return array
+     * @return mixed
      */
     public function view($id)
     {
-        $data = [];
-        $feed = $this->getFeed();
+        return News::find($id);
+    }
 
-        foreach ($feed->get_items() as $item) {
-            if(md5($item->get_permaLink()) == $id) {
-                $data = $item->data['child'][''];
-                break;
+    /**
+     * @return JsonResponse
+     */
+    public function load()
+    {
+        $feed = \Feeds::make('http://pox.globo.com/rss/g1/economia');
+        $data = [];
+
+        try{
+            foreach ($feed->get_items() as $item) {
+                $link = $item->get_permaLink();
+                $new = News::where("content", "LIKE", "%{$link}%")->get();
+                if(empty($new->count())) {
+                    $data['content'] = json_encode($item->data);
+                    News::create($data);
+                }
             }
+            $result = new JsonResponse("Not&iacute;cias carregadas com sucesso.");
+        } catch (\Exception $exception) {
+            dd($exception->getMessage());
+            $result = new JsonResponse("Ocorreu um erro ao carregar as not&iacute;cias.");
         }
 
-        return $data;
+        return $result;
     }
 }

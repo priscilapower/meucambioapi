@@ -98,16 +98,14 @@ class NewsTest extends TestCase
      */
     public function testNewsView()
     {
-        $this->get('/news/a58f28a32380dc7908181df518359954')
+        $this->get('/news/5')
             ->assertOk()
             ->assertJsonStructure(
                 [
-                    "title",
-                    "link",
-                    "guid",
-                    "description",
-                    "category",
-                    "pubDate",
+                    "id",
+                    "content",
+                    "created_at",
+                    "updated_at",
                 ]
             );
     }
@@ -117,10 +115,19 @@ class NewsTest extends TestCase
      */
     public function testNewsViewInvalidId()
     {
-        $this->get('/news/9c7ce76ce34f')
-            ->assertOk()
-            ->assertJsonStructure(
-                []
-            );
+        $this->get('/news/c7ce76ce34f')
+            ->assertOk();
+    }
+
+    public function testLoad()
+    {
+        $this->get('/load')
+            ->assertOk();
+    }
+
+    public function testLoadWrong()
+    {
+        $this->get('/load/4')
+            ->assertNotFound();
     }
 }

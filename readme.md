@@ -9,7 +9,25 @@ Após fazer o clone da aplicação, execute o seguinte comando para instalar os 
 
 `composer install`
 
-Assim que a instalação for concluída, inicie a aplicação no servidor, como por exemplo:
+Para criarmos o banco de dados no MySQL, execute o comando abaixo escolhendo o nome do banco como preferir:
+
+`echo create database nome_do_banco | mysql -u root -p`
+
+Vá até o seu arquivo .env.example, que fica localizado na raíz do projeto, e crie uma cópia apenas como .env e altere os valores de banco de dados de acordo com a sua configuração de conexão.
+
+
+DB_DATABASE=nome_do_banco
+
+DB_USERNAME=usuario_do_banco
+
+DB_PASSWORD=senha_do_banco
+
+Execute no terminal o comando do laravel que registra uma chave validando a sua aplicação:
+
+`php artisan key:generate`
+
+
+Assim que a instalação for concluída e o banco for criado, inicie a aplicação no servidor, como por exemplo:
 
 `php artisan serve`
 
@@ -17,7 +35,11 @@ Acesse http://localhost:8000 para verificar se a aplicação está rodando.
 
 ## Rotas
 
-A API disponibiliza duas rotas.
+A API disponibiliza três rotas.
+
+- `/load`
+
+    Esta é a primeira rota a ser executada, pois irá carregar as notícias disponíveis no RSS em seu banco de dados. Não importa quantas vezes for executada, irá inserir apenas as notícias que ainda não estão na sua base.
 
 - `/news`
     
@@ -26,24 +48,23 @@ A API disponibiliza duas rotas.
 
 - `/news/:id`
 
-    Retorna um objeto com todos os dados da notícia referenciado pelo id passado.
+    Retorna um objeto json com todos os dados da notícia referenciado pelo id passado.
 
 
-**IMPORTANTE: O RSS não informa o id das notícias, então a API gera um hash md5 do conteúdo da tag _guid_ e o utiliza como o identificador.**
 
 ## Exemplo
 
-Conteúdo da tag guid:
+Carregando as notícias:
 
-`https://g1.globo.com/economia/tecnologia/noticia/2019/01/09/como-a-amazon-se-transformou-na-empresa-mais-valiosa-do-mundo.ghtml`
+`https://localhost:8000/load`
 
-Hash md5 gerado a partir da tag guid:
+Recuperando todos os registros:
 
-`7219195eabbd9e8808214496bfb6a65a`
+`https://localhost:8000/news`
 
-Aplicação na rota:
+Recuperando um registro específico:
 
-`/news/7219195eabbd9e8808214496bfb6a65a`
+`https://localhost:8000/news/1`
 
 
 #### Obrigada pela utilização :)
