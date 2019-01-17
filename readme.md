@@ -26,8 +26,12 @@ Execute no terminal o comando do laravel que registra uma chave validando a sua 
 
 `php artisan key:generate`
 
+Para criar as tabelas no banco de dados, execute o migrate:
 
-Assim que a instalação for concluída e o banco for criado, inicie a aplicação no servidor, como por exemplo:
+`php artisan migrate`
+
+
+Assim que a instalação for concluída, o banco e as tabelas forem criados, inicie a aplicação no servidor, como por exemplo:
 
 `php artisan serve`
 
@@ -56,7 +60,7 @@ A API disponibiliza três rotas.
 
 Carregando as notícias:
 
-`https://localhost:8000/api/api/load`
+`https://localhost:8000/api/load`
 
 Recuperando todos os registros:
 
